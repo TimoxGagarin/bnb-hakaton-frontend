@@ -8,16 +8,16 @@ import LoginPage from '../views/LoginPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
 
+import Cookies from 'js-cookie'
+
 const routes = [
   {
     path: '/',
-    name: 'main',
-    component: ProfilePage
-  },
-  {
-    path: '/profile',
     name: 'profile',
-    component: ProfilePage
+    component: ProfilePage,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',
@@ -30,34 +30,44 @@ const routes = [
     component: RegisterPage
   },
   {
-    path: '/register',
-    name: 'register',
-    component: RegisterPage
-  },
-  {
     path: '/debts',
     name: 'debts',
-    component: DebtsPage
+    component: DebtsPage,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/credit',
     name: 'credit',
-    component: GetCreditPage
+    component: GetCreditPage,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/credit/detalization',
     name: 'credit-detalization',
-    component: CreditDetalization
+    component: CreditDetalization,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/agreement',
     name: 'agreement',
-    component: AgreementPage
+    component: AgreementPage,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/extract',
     name: 'extract',
-    component: ExtractPage
+    component: ExtractPage,
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
@@ -66,5 +76,21 @@ const router = createRouter({
   base: process.env.BASE_URL,
   routes: routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated()) {
+      next('/login')
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
+function isAuthenticated() {
+  return Cookies.get('access_token') != null
+}
 
 export default router

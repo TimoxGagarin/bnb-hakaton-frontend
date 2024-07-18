@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { useField, useForm } from 'vee-validate';
 import { getCurrentInstance } from 'vue';
 import { RouterLink } from 'vue-router';
@@ -126,7 +127,7 @@ export default{
     },
     methods: {
         register(values){
-            console.log(values)
+            axios.post('http://localhost:8000/user/register/', values)
             this.$router.push({name: "profile"})
         }
     }

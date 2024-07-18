@@ -44,7 +44,7 @@ export default {
         { id: 3, number: '3456 7890 1234 5678', returnDate: '2024-09-10', amount: 300, type: 'debt' },
         ],
       page: 1,
-      itemsPerPage: 3,
+      itemsPerPage: 10,
     };
   },
   computed: {
