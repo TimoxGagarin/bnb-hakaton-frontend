@@ -1,10 +1,26 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <v-app>
+    <v-app-bar inset="true" color="primary"
+    density="compact">
+        <v-btn icon @click="go_to_link('profile')">
+          <v-icon>mdi-account-arrow-right-outline</v-icon>
+        </v-btn>
+    </v-app-bar>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
+
+<script>
+export default {
+  methods: {
+    go_to_link(name) {
+      this.$router.push({name: name});
+    }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -13,18 +29,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

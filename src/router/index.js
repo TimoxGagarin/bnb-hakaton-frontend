@@ -1,25 +1,70 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import AgreementPage from '../views/AgreementPage.vue'
+import CreditDetalization from '../views/CreditDetalization.vue'
+import DebtsPage from '../views/DebtsPage.vue'
+import ExtractPage from '../views/ExtractPage.vue'
+import GetCreditPage from '../views/GetCreditPage.vue'
+import LoginPage from '../views/LoginPage.vue'
+import ProfilePage from '../views/ProfilePage.vue'
+import RegisterPage from '../views/RegisterPage.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'main',
+    component: ProfilePage
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/profile',
+    name: 'profile',
+    component: ProfilePage
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterPage
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterPage
+  },
+  {
+    path: '/debts',
+    name: 'debts',
+    component: DebtsPage
+  },
+  {
+    path: '/credit',
+    name: 'credit',
+    component: GetCreditPage
+  },
+  {
+    path: '/credit/detalization',
+    name: 'credit-detalization',
+    component: CreditDetalization
+  },
+  {
+    path: '/agreement',
+    name: 'agreement',
+    component: AgreementPage
+  },
+  {
+    path: '/extract',
+    name: 'extract',
+    component: ExtractPage
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  base: process.env.BASE_URL,
+  routes: routes
 })
 
 export default router
