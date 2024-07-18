@@ -34,6 +34,13 @@
             ></v-text-field>
 
             <v-text-field
+                v-model="email.value.value"
+                :error-messages="email.errorMessage.value"
+                label="Почта"
+                placeholder="i.ivanov@gmail.com"
+            ></v-text-field>
+
+            <v-text-field
                 v-model="password.value.value"
                 :error-messages="password.errorMessage.value"
                 label="Пароль"
@@ -91,6 +98,13 @@ export default{
 
                 return 'Неправильный формат телефона'
             },
+            email(value){
+                const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+                if (emailRegex.test(value)) return true
+
+                return 'Неправильный формат почты'
+            },
             password(value){
                 if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) return true;
 
@@ -109,6 +123,7 @@ export default{
         const second_name = useField('second_name')
 
         const phone = useField('phone')
+        const email = useField('email')
         const password = useField('password')
         const confirm_password = useField('confirm_password')
 
@@ -120,6 +135,7 @@ export default{
             name,
             second_name,
             phone,
+            email,
             password,
             confirm_password,
             submit
@@ -127,7 +143,32 @@ export default{
     },
     methods: {
         register(values){
-            axios.post('http://localhost:8000/user/register/', values)
+            axios.post('http://localhost:8000/users/register/', {
+                surname: values.surname,
+                name: values.name,
+                second_name: values.second_name,
+                phone_number: values.phone,
+                email: values.email,
+                password: values.password,
+                password_confirm: values.confirm_password
+            }).then(response => {
+                console.log(response.data)
+            }).catch(error => {
+                console.log(error.response.data)
+                alert('Ошибка регистрации: ' + error.response)
+            })
+            console.log("kek")
+
+            axios.post('http://localhost:8000/users/login/', {
+                    phone_number: values.phone,
+                    password: values.password,
+                }).then(response => {
+                    console.log(response.data)
+                }).catch(error => {
+                    console.log(error.response.data)
+                    alert('Ошибка регистрации: ' + error.response)
+                })
+            
             this.$router.push({name: "profile"})
         }
     }
